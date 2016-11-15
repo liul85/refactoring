@@ -115,4 +115,27 @@ public class CustomerTest {
                         "Amount owed is 15.5\n" +
                         "You earned 4 frequent renter points"));
     }
+
+    @Test
+    public void testHtmlStatement() throws Exception {
+        Movie regularMovie = new Movie("Gone with the wind", Movie.REGULAR);
+        rental = new Rental(regularMovie, 2);
+        customer.addRental(rental);
+
+        Movie newReleaseMovie = new Movie("West World", Movie.NEW_RELEASE);
+        Rental newReleaseRental = new Rental(newReleaseMovie, 3);
+        customer.addRental(newReleaseRental);
+
+        Movie ChildrenMovie = new Movie("Go away Mr wolf", Movie.CHILDRENS);
+        Rental childrenRental = new Rental(ChildrenMovie, 5);
+        customer.addRental(childrenRental);
+
+        assertThat(customer.getHtmlStatement(),
+                is("<H1>Rentals for <EM>Jenny</EM></H1><p>\n" +
+                        "Gone with the wind: 2.0<BR>\n" +
+                        "West World: 9.0<BR>\n" +
+                        "Go away Mr wolf: 4.5<BR>\n" +
+                        "<p>Yow own <EM>15.5</EM><p>\n" +
+                        "On this rental you earned <EM>4</EM> frequent renter points<p>\n"));
+    }
 }
